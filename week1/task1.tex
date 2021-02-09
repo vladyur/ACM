@@ -1,0 +1,117 @@
+\documentclass[12pt,a5paper,fleqn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, multicol}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage[shortcuts,cyremdash]{extdash}
+\usepackage{wrapfig}
+\usepackage{floatflt}
+\usepackage{lipsum}
+\usepackage{concmath}
+\usepackage{euler}
+
+\graphicspath{ {images/} }
+
+\oddsidemargin=-17.9mm
+\textwidth=133mm
+\headheight=-35.4mm
+\textheight=200mm
+\parindent=0pt
+\tolerance=100
+\parskip=6pt
+\pagestyle{empty}
+\renewcommand{\tg}{\mathop{\mathrm{tg}}\nolimits}
+\renewcommand{\ctg}{\mathop{\mathrm{ctg}}\nolimits}
+\renewcommand{\arctan}{\mathop{\mathrm{arctg}}\nolimits}
+\newcommand{\divisible}{\mathop{\raisebox{-2pt}{\vdots}}}
+\renewcommand{\not}{\overline}
+
+\RequirePackage{caption2}
+\renewcommand\captionlabeldelim{}
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}%
+\newtheorem{Theorem}{Теорема}
+{\hbox{$\mathsurround=0pt #1$}}{}}
+
+\begin{document}
+
+
+\begin{center}
+{ \Large Задание на первую неделю.}
+
+\end{center}
+
+{\bf 1.} Пусть $A_n$~--- число натуральных решений уравнения $2x+3y=n$, т. е. $A_1=A_2\hm{=}A_3=A_4=0,\, A_5=1\, (x=1,y=1),\dotsc$.
+
+\noindent ($i$) Найдите производящую функцию последовательности $A_n$, $n=1,2,\dotsc$.
+
+\noindent ($ii$) Найдите $\theta$-асимптотику $A_n$.
+
+\noindent ($iii$) Найдите явное аналитическое выражение для $A_n$.
+
+
+\smallskip
+
+{\bf 2.} Имеются различные клетчатые таблички~---~нужно подсчитать число способов замостить ими большое поле из клеток без пробелов и наложений.
+
+Разрешено использовать таблички: чёрный квадрат $2\times 2$, белый квадрат $2\times 2$, серый прямоугольник $2\times 1$ с возможностью поворота. Поле представляет собой полосу $2\times n$. найдите асимптотику числа замощений и явную формулу для него.
+
+\smallskip
+
+{\bf 3.}   Найдите $\Theta$-асимптотику рекуррентности, которая определяется в следующем тексте.
+
+Colour the edges of a
+complete graph of n vertices by three colours so that the number of triangles
+all whose edges get a different colour is maximal. Denote this maximum
+by $G_3(k)$. They conjectured that $G_3(k)$ is obtained as follows: clearly
+$G_3(1) = G_3(2) = 0, G_3(3) = 1, G_3(4) = 4$. Suppose $G_3(k_1)$ has already been
+determined for every $k_1 < k$. Then
+\begin{multline*}
+$$G_3(k) = G_3(u_1) + G_3(u_2) + G_3(u_3) + G_3(u_4) +\\
++ u_1 u_2 u_3 + u_1 u_2 u_4 + u_1 u_3 u_4 + u_2 u_3 u_4,
+\end{multline*}
+where $u_1 + u_2 + u_3 + u_4 = k$ and the $u$’s are as nearly equal as possible.
+
+\smallskip
+
+{\bf 4.} ($i$) Вычислите число правильно составленных скобочных выражений, содержащих $n$ скобок, в которых в любом непустом префиксе число открывающих скобок больше числа закрывающих.
+
+($ii$) Найдите явное аналитическое выражение для производящей функции чисел $BR_{4n+2}$ правильных скобочных последовательностей длины $4n+2$ (ответ в виде суммы ряда не принимается). 
+
+\smallskip
+
+{\bf 5.} Оцените трудоемкость рекурсивного алгоритма, разбивающего исходную задачу размера $n$ на три задачи размером $\lceil\frac{n}{\sqrt{3}}\rceil-5$, используя для этого $10\frac{n^3}{\log n}$ операций.
+
+\smallskip
+
+{\bf 6.} Рассмотрим детерминированный алгоритм поиска медианы по кальке известного линейного алгоритма, где используется разбиение массива на четвёрки элементов, в каждой из которых определяется \emph{нижняя} медиана, т.~е. из в каждой четверки выбирается второй по порядку элемент (элементы можно считать различными). Приведите рекуррентную оценку числа сравнений в этой процедуре и оцените сложность такой модификации.      
+
+\smallskip
+
+{\bf 7.} Функция натурального аргумента $S(n)$ задана рекурсией:
+$$
+S(n)=\left\{\begin{array}{cc}
+100&, n\leq 100\\
+S(n-1)+S(n-3)&, n>100
+\end{array}
+\right.
+$$      
+Оцените число рекурсивных вызовов процедуры $S(\cdot)$ при вычислении $S(10^{12})$.      
+
+\smallskip
+
+{\bf 8 (Доп).}  Оцените как можно точнее высоту дерева рекурсии для рекуррентности
+$T(n) = T(n-\lfloor \sqrt{n} \rfloor) + T(\lfloor \sqrt{n} \rfloor) + \Theta(n)$.
+
+\smallskip
+
+{\bf 9 (Доп).} Оцените трудоемкость рекурсивного алгоритма, разбивающего исходную задачу размера $n$ на $n$ задач размеров $\lceil \frac n 2 \rceil$ каждая, используя для этого $O(n)$ операций. 
+
+\smallskip
+
+
+\end{document}
+
+
+
+
+

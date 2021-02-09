@@ -1,0 +1,175 @@
+\documentclass[a4paper,12pt]{article}
+
+\input{AMV_Preamble.tex}
+
+\begin{document}
+	
+	\thispagestyle{firstpage}
+	
+	\begin{center}
+		\textbf{\Large{Алгоритмы и модели вычислений. \\ Домашнее задание № 1}}
+	\end{center}
+
+
+\begin{tasknum}{2}
+	Имеются различные клетчатые таблички~---~нужно подсчитать число способов замостить ими большое поле из клеток без пробелов и наложений.
+	
+	Разрешено использовать таблички: чёрный квадрат $2\times 2$, белый квадрат $2\times 2$, серый прямоугольник $2\times 1$ с возможностью поворота. Поле представляет собой полосу $2\times n$. найдите асимптотику числа замощений и явную формулу для него.
+\end{tasknum}
+
+\begin{solution}
+	
+	Пусть $T(n)$ ~---~ количество способов замостить полосу $2\times n$. Для нахождения рекурсивной формулы воспользуемся следующим наблюдением: так как размеры наших табличек не превышают $2\times 2$, то принципиально у нас есть $2$ способа замостить край полосы: 
+	
+	\begin{enumerate}
+		\item замостить один крайний столбец: на это у нас есть всего один способ ~---~ поставить серый прямоугольник $2\times 1$
+		\item замостить сразу два крайних столбца: на это у нас есть $3$ способа ~---~ чёрный квадрат $2\times 2$, белый квадрат $2\times 2$, два серых прямоугольника $1\times 2$ каждый (случай двух серых прямоугольников $2\times 1$ покрывается предыдущим пунктом, поэтому тут не рассматривается)
+	\end{enumerate}
+	
+	Таким образом, получаем $T(n) \hm{=} T(n-1) + 3T(n-2)$
+	
+	Найдём асимптотику $T(n)$ исходя из того, что $T(n-1) \hm{=} T(n-2) + 3T(n-3) \ge T(n-2)$:
+	
+	\begin{itemize}
+		\item $T(n) \hm{=} T(n-1) + 3T(n-2) \le 4T(n-1) \hm{=} 4 \cdot 4T(n-2) \hm{=} \ldots \hm{=} 4^n \Ra T(n) \hm{=} O(4^n)$
+		\item $T(n) \hm{=} T(n-1) + 3T(n-2) \ge 4T(n-2) \hm{=} 4 \cdot 4T(n-2 \cdot 2) \hm{=} \ldots \hm{=} 4^{\frac{n}{2}} \hm{=} 2^n \Ra T(n) \hm{=} \Omega(2^n)$
+	\end{itemize}
+
+	Решим линейное рекуррентное соотношение: для начала запишем характеристическое уравнение
+	$$\lambda^2 \hm{=} \lambda + 3 \ \ \Ra \ \ \lambda_{1, 2} \hm{=} \dfrac{1 \pm \sqrt{13} }{2}$$
+	Таким образом $T(n) \hm{=} C_1 \left( \dfrac{1 + \sqrt{13} }{2}\right) ^n + C_2 \left( \dfrac{1 - \sqrt{13} }{2}\right) ^n$, подберём константы из начальных условий: при $n \hm{=} 0$ у нас есть 1 способ замостить ленту, при $n\hm{=}1$ ~---~ также 1 способ, то есть $T(0) \hm{=} T(1) \hm{=} 1$, тогда
+	$$C_1 + C_2 \hm{=} 1 \ \ \ \ \ \ C_1 \cdot \dfrac{1 + \sqrt{13} }{2} + C_2 \cdot \dfrac{1 - \sqrt{13} }{2} \hm{=} 1$$
+	Решая, получаем $C_1 \hm{=} \dfrac{1}{2} + \dfrac{1}{2\sqrt{13}} \hm{=} \dfrac{1}{\sqrt{13}} \lambda_{1}$ и $C_2 \hm{=} \dfrac{1}{2} - \dfrac{1}{2\sqrt{13}} \hm{=} - \dfrac{1}{\sqrt{13}} \lambda_{2}$
+	
+	И, окончательно: $$T(n) \hm{=} \dfrac{1}{\sqrt{13}} \cdot \left( \dfrac{1 + \sqrt{13} }{2}\right) ^{n+1} - \dfrac{1}{\sqrt{13}} \cdot \left( \dfrac{1 - \sqrt{13} }{2}\right) ^{n+1}$$
+	
+\end{solution}
+
+\begin{tasknum}{3}
+	Найдите $\Theta$ асимптотику рекуррентности, которая определяется в следующем тексте.
+	
+	Colour the edges of a
+	complete graph of n vertices by three colours so that the number of triangles
+	all whose edges get a different colour is maximal. Denote this maximum
+	by $G_3(k)$. They conjectured that $G_3(k)$ is obtained as follows: clearly
+	$G_3(1) \hm{=} G_3(2) \hm{=} 0, G_3(3) \hm{=} 1, G_3(4) \hm{=} 4$. Suppose $G_3(k_1)$ has already been
+	determined for every $k_1 < k$. Then
+	$$G_3(k) \hm{=} G_3(u_1) + G_3(u_2) + G_3(u_3) + G_3(u_4)
+	+ u_1 u_2 u_3 + u_1 u_2 u_4 + u_1 u_3 u_4 + u_2 u_3 u_4$$
+	where $u_1 + u_2 + u_3 + u_4 \hm{=} k$ and the $u$’s are as nearly equal as possible.
+\end{tasknum}
+
+\begin{solution}
+	<<$u$’s are as nearly equal as possible>>, так что $u_{min} \ge \dfrac{k}{5}, u_{max} \le \dfrac{k}{3}$, поэтому 
+	\begin{itemize}
+		\item $G_3(k) \ge G_{min}(k) \hm{=} 4 G_3\left(\dfrac{k}{5} \right) + \dfrac{4}{5^3} k^3$ 
+		\item $G_3(k) \le G_{max}(k) \hm{=} 4 G_3\left(\dfrac{k}{3} \right) + \dfrac{4}{3^3} k^3$ 
+	\end{itemize}
+
+	Решим:
+	
+	\begin{itemize}
+		\item $G_{min}(k) \hm{=} 4 G_3\left(\dfrac{k}{5} \right) + \dfrac{4}{5^3} k^3 \hm{=} 4 \cdot \left(4 G_3\left(\dfrac{k}{25} \right) + \dfrac{4}{5^3} \left(\dfrac{k}{5} \right) ^3 \right) + \dfrac{4}{5^3} k^3 \hm{=} \ldots \hm{=} \left(1 + \dfrac{4}{5^3} + \ldots + \left( \dfrac{4}{5^3}\right) ^{\log k}\right) \cdot \dfrac{4}{5^3} k \hm{=} \Omega(k^3)$
+	
+	Таким образом, $G_3(k) \hm{=} \Omega(k^3)$
+	
+		\item Аналогично $G_{max}(k) \hm{=} 4 G_3\left(\dfrac{k}{3} \right) + \dfrac{4}{3^3} k^3 \hm{=} 4 \cdot \left(4 G_3\left(\dfrac{k}{9} \right) + \dfrac{4}{3^3} \left(\dfrac{k}{3} \right) ^3 \right) + \dfrac{4}{3^3} k^3 \hm{=} \ldots \hm{=} \left(1 + \dfrac{4}{3^3} + \ldots + \left( \dfrac{4}{3^3}\right) ^{\log k}\right) \cdot \dfrac{4}{3^3} k \hm{=} O(k^3)$
+	
+	Таким образом, $G_3(k) \hm{=} O(k^3)$
+	
+\end{itemize}
+	
+	И, окончательно, $G_3(k) \hm{=} \Theta(k^3)$
+	
+\end{solution}
+
+\begin{tasknum}{4}
+	($i$) Вычислите число правильно составленных скобочных выражений, содержащих $n$ скобок, в которых в любом непустом \textit{собственном} префиксе число открывающих скобок больше числа закрывающих.
+	
+	($ii$) Найдите явное аналитическое выражение для производящей функции чисел $BR_{4n+2}$ правильных скобочных последовательностей длины $4n+2$ (ответ в виде суммы ряда не принимается). 
+\end{tasknum}
+
+\begin{solution}
+	
+	Пусть $CBS(n)$ ~---~ язык всех правильных скобочных последовательностей (Correct bracket sequences) из $n$ пар скобок, $L(n) \subseteq CBS(n)$ ~---~ язык из $CBS$, в которых в любом непустом префиксе число открывающих скобок больше числа закрывающих, $w \in \Sigma^*, \Sigma \hm{=} \{ \ ), ( \ \}$ ~---~ произвольное слово
+		
+		Докажем, что $w \in L(n) \LRa w \hm{=} (u), u \in CBS(n-1), n \ge 2$:
+		
+		\begin{itemize}
+			\item $\La$: так как $u \in CBS(n-1)$, то $\forall x \in pref(u) \vyp |x|_( \ge |x|_)$, а так как каждый префикс $w$ представляется в виде $y \hm{=} (x$, то $\forall y \in pref(w) \vyp |y|_( > |y|_) \Ra w \in L(n)$
+			\item $\Ra$: очевидно, $w[1] \hm{=} (, w[2n] \hm{=} )$ в силу того, что $w \in CBS(n)$.		
+			%, помимо этого заметим, что $w[2] \hm{=} (, w[2n-1] \hm{=} )$. Действительно, иначе бы $w[1]w[2] \hm{=} () \in pref(w)$, но такого быть не может, так как $\forall y \in pref(w) \vyp |y|_( > |y|_)$ по условию; аналогично, если бы $w[2n-1] \hm{=} ($, то выполнялось бы $y \hm{=} w[1]\ldots w[2n-2] \in pref(w)$, причём $|w|_( - 1 \hm{=} |y|_( \hm{=} |y|_) \hm{=} |w|_) - 1$ ~---~ противоречие. 
+			Таким образом, $w \hm{=} (u)$. Осталось показать, что $u$ ~---~ правильная скобочная последовательность. Если бы это на самом деле было не так, то существовал бы $x \in pref(u) : |x|_( < |x|_)$, но тогда существовал бы $y \hm{=} (x \in pref(w) : |y|_( \hm{=} |x|_( + 1 \le |x|_) \hm{=} |y|_)$ ~---~ противоречие и таким образом $u \in CBS(n-1)$, что и требовалось
+			
+		\end{itemize}
+		
+		Таким образом мы доказали, что $|L(n)| \hm{=} |CBS(n-1)| \hm{=} C_{(n-1}$, где $C_n$ ~---~ $n$-й элемент последовательности чисел Каталана
+	
+\end{solution}
+
+\begin{tasknum}{5}
+		Оцените трудоемкость рекурсивного алгоритма, разбивающего исходную задачу размера $n$ на три задачи размером $\lceil\frac{n}{\sqrt{3}}\rceil-5$, используя для этого $10\frac{n^3}{\log n}$ операций.
+\end{tasknum}
+	
+	\begin{solution}
+		
+		$T(n) \hm{=} 3T\left(\left \lceil\dfrac{n}{\sqrt{3}}\right \rceil-5 \right) + 10\dfrac{n^3}{\log n}$
+		\begin{itemize}
+		\item $T(n) \ge 10\dfrac{n^3}{\log n} \Ra T(n) \hm{=} \Omega\left(\dfrac{n^3}{\log n}\right)$
+		
+		\item $T(n) \le 3T\left(\left \lceil\dfrac{n}{\sqrt{3}}\right \rceil\right) + 10\dfrac{n^3}{\log n}$; применим мастер теорему: $d \hm{=} \log_b a \hm{=} \log_{\sqrt{3}}3 \hm{=} 2; \ \ 10\dfrac{n^3}{\log n} \hm{=} \Omega(n^{d+\epsilon})$ при $\epsilon$, равном, например, $0.5 \Ra$ по мастер-теореме $3T\left(\left \lceil\dfrac{n}{\sqrt{3}}\right \rceil\right) + 10\dfrac{n^3}{\log n} \hm{=} \Theta\left(\dfrac{n^3}{\log n}\right) \Ra T(n) \hm{=} O\left(\dfrac{n^3}{\log n}\right)$
+		
+	\end{itemize}
+
+	Таким образом, получаем, $T(n) \hm{=} \Theta\left(\dfrac{n^3}{\log n}\right)$
+	
+	\end{solution}
+
+\begin{tasknum}{6}
+	
+	Рассмотрим детерминированный алгоритм поиска медианы по кальке известного линейного алгоритма, где используется разбиение массива на четвёрки элементов, в каждой из которых определяется \emph{нижняя} медиана, т.~е. из в каждой четверки выбирается второй по порядку элемент (элементы можно считать различными). Приведите рекуррентную оценку числа сравнений в этой процедуре и оцените сложность такой модификации.     
+	
+\end{tasknum}
+
+\begin{solution}
+	
+	Пусть $x$ ~---~ опорный элемент, тогда в половине четвёрок элементов есть по $2$ элемента, больших $x$, за исключением, быть может, последней группы, в которой менее $4$-х элементов. Таким образом, элементов, больших $x$, по крайней мере $3 \cdot \left( \dfrac{1}{2} \cdot \dfrac{n}{4} - 2 \right) \hm{=} \dfrac{3n}{8} - 6$; а элементов, меньших $x$, соответственно $2 \cdot \left( \dfrac{1}{2} \cdot \dfrac{n}{4} - 2 \right) \hm{=} \dfrac{n}{4} - 4$
+	
+	Таким образом, $T(n) \hm{=} T\left(\left\lceil \dfrac{n}{4}\right\rceil \right) + T\left(\dfrac{5n}{8} + 6 \right) + O(n)$ 
+	
+\end{solution}
+
+\begin{tasknum}{7}
+	
+	 Функция натурального аргумента $S(n)$ задана рекурсией:
+	$$
+	S(n)=\left\{\begin{array}{cc}
+	100&, n\leq 100\\
+	S(n-1)+S(n-3)&, n>100
+	\end{array}
+	\right.
+	$$      
+	Оцените число рекурсивных вызовов процедуры $S(\cdot)$ при вычислении $S(10^{12})$
+	
+\end{tasknum}
+
+\begin{solution}
+	
+	Рассматриваем функцию $S(n)$ при больших $n$: $S(n) \hm{=} S(n-1)+S(n-3) \Ra S(n-1) \hm{=} S(n-3) + S(n-5) \ge S(n-3)$. Таким образом при вычислении $S(n-1)$ происходит больше рекурсивных вызовов, чем при вычислении $S(n-3)$. Пусть $K(m)$ ~---~ количество рекурсивных вызовов процедуры $S(\cdot)$ при вычислении $S(m)$. Тогда по условию нам надо оценить $K(10^{12})$, а только что мы показали, что $K(n-1) \ge K(n-3)$, следовательно $2K(n-3) \le K(n) \le 2K(n-1)$
+	
+	Таким образом получаем:
+	$$2^{\frac{10^{12} - 100}{3}} \le \ldots \le 2K(10^{12}-3) \le K(10^{12}) \le 2K(10^{12} - 1) \le \ldots \le 2^{10^{12} - 100}$$
+	
+\end{solution}
+
+\begin{tasknum}{9}
+	Оцените трудоемкость рекурсивного алгоритма, разбивающего исходную задачу размера $n$ на $n$ задач размеров $\lceil \frac n 2 \rceil$ каждая, используя для этого $O(n)$ операций. 
+\end{tasknum}
+
+\begin{solution}
+	
+	$T(n) \hm{=} nT\left(\left\lceil \dfrac{n}{2} \right \rceil \right) + O(n)$. $d \hm{=} \log_b a \hm{=} \log_2 n$; $O(n) \hm{=} O(n^{d-\epsilon})$ при $\epsilon$, равном, например, $0.5 \Ra$ по мастер-теореме $T(n) \hm{=} \Theta(n^d) \hm{=} \Theta(n^{\log n})$
+	
+\end{solution}
+
+\end{document}
