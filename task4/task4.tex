@@ -1,0 +1,110 @@
+\documentclass[12pt,a5paper,fleqn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, multicol}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage[shortcuts,cyremdash]{extdash}
+\usepackage{wrapfig}
+\usepackage{floatflt}
+\usepackage{lipsum}
+\usepackage{concmath}
+\usepackage{euler}
+
+\graphicspath{ {images/} }
+
+\oddsidemargin=-17.9mm
+\textwidth=133mm
+\headheight=-35.4mm
+\textheight=200mm
+\parindent=0pt
+\tolerance=100
+\parskip=6pt
+\pagestyle{empty}
+\renewcommand{\tg}{\mathop{\mathrm{tg}}\nolimits}
+\renewcommand{\ctg}{\mathop{\mathrm{ctg}}\nolimits}
+\renewcommand{\arctan}{\mathop{\mathrm{arctg}}\nolimits}
+\newcommand{\divisible}{\mathop{\raisebox{-2pt}{\vdots}}}
+\newcommand{\modulo}{\mathop{\mathrm{mod}}\nolimits}
+\def\coNP{{\mathbf{\text{\textbf{co--}}\mathcal{NP}}}}
+
+
+\RequirePackage{caption2}
+\renewcommand\captionlabeldelim{}
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}%
+\newtheorem{Theorem}{Теорема}
+{\hbox{$\mathsurround=0pt #1$}}{}}
+
+\begin{document}
+
+
+\begin{center}
+{ \Large Задание на четвертую неделю.}
+
+\end{center}
+
+
+{\bf 1.} Решите последнюю задачу предыдущего задания про $NP$-сертификат простоты.
+
+\smallskip
+
+{\bf 2.} Найдите $\Theta$-асимптотику суммы $\displaystyle\sum_{k=1}^n \sqrt{k}$, оценив её с помощью интеграла $\displaystyle\int_1^n \sqrt{x}dx$ сверху и снизу. Выведите аналогичную формулу для асимптотики $\displaystyle\sum_{k=1}^n k^\alpha$ для $\alpha > 0$.
+
+\smallskip
+
+{\bf 3 (0.5+0.5+1 балла).} а) Верно ли что язык $5$-ДНФ-Л является полиномиально полным в $\coNP$?
+
+Язык $5$-ДНФ-Л состоит из всех формул в дизъюнктивной нормальной форме, принимающих истинное значение при каких-то значениях переменных, в каждый конъюнкт которых входит не более пяти переменных. 
+
+б) Верно ли что язык $5$-КНФ-Л является полиномиально полным в $\mathcal{NP}$?
+
+Язык $5$-КНФ-Л состоит из всех формул в конъюнктивной нормальной форме, принимающих  ложное значение при каких-то значениях переменных, в каждый дизъюнкт которых входит не более пяти переменных.
+
+\noindent {\em Можно использовать гипотезы $\mathcal{P}\neq\mathcal{NP}$ и $\mathcal{NP}\neq \coNP$.}
+
+\smallskip
+
+в) Расставьте и обоснуйте $\mathcal{P}$, $\mathcal{NP}-complete$, $co-\mathcal{NP}-complete$: 
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+ & Выполнимость & Тавтологичность \\
+\hline
+КНФ &  &  \\
+ \hline
+ДНФ  &   &  \\
+\hline
+\end{tabular}
+\end{center}
+
+Под выполнимостью понимается задача проверки наличия набора значений переменных, на котором формула равна $1$. Под тавтологичностью понимается задача проверки свойства формулы принимать значение $1$ на всех наборах.
+
+
+\smallskip
+
+{\bf 4 (2 балла).} Рассматривается язык $L$ выполнимых формул от $n$ переменных вида $C_1\land C_2\land\dotsc\land C_m$, где каждый $C_k$ имеет один из трех видов: $(x_i \equiv x_j)$, $(\overline{x_i}\equiv x_j)$, $(x_i \equiv \overline{x_j})$, $(\overline{x_i} \equiv \overline{x_j})$.
+
+($i$) Верно ли, что этот язык $\mathcal{NP}$--полон?
+
+($ii$) Верно ли, что если каждый $C_k$ будет иметь вид $(x_{i_1}^{\alpha_{i_1}} \equiv x_{i_2}^{\alpha_{i_2}} \equiv \dotsc \equiv x_{i_l}^{\alpha_{i_l}})$, то язык будет $\mathcal{NP}$--полон? (Под $x_i^{\alpha_i}$ понимается либо $x_i$, либо $\overline{x_i}$)
+
+{\bf 5.} Останется ли $3-SAT$ полной, если ограничиться формулами, в которых каждая переменная входит не более $3$ раз, а каждый литерал~---~не более $2$ раз?
+
+а) Под $3-SAT$ понимается НЕ-БОЛЕЕ-$3-SAT$.
+
+б) {\bf (Бонусная задача)} Покажите, что если имеется в виду РОВНО-$3-SAT$, то не бывает невыполнимых формул указанного вида.
+
+\smallskip
+
+{\bf 6.} Постройте сводимость по Карпу языка $(G, k)$ графов, в которых есть $k$-клика к языку графов, в которых есть клика хотя бы на половине вершин.
+
+\smallskip
+
+{\bf 7 (Доп).} Пусть язык $L\in\mathcal{NP}$. Покажите, что он полиномиально сводится (по Карпу) к языку $STOP$ описаний пар $(M, \omega)$ машин Тьюринга и входов таких, что $M$ останавливается на входе $\omega$.
+
+
+
+
+
+\end{document}
+
+
