@@ -1,0 +1,97 @@
+\documentclass[12pt,a5paper,fleqn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, multicol}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage[shortcuts,cyremdash]{extdash}
+\usepackage{wrapfig}
+\usepackage{floatflt}
+\usepackage{lipsum}
+\usepackage{concmath}
+\usepackage{euler}
+
+\graphicspath{ {images/} }
+
+\oddsidemargin=-17.9mm
+\textwidth=133mm
+\headheight=-35.4mm
+\textheight=200mm
+\parindent=0pt
+\tolerance=100
+\parskip=6pt
+\pagestyle{empty}
+\renewcommand{\tg}{\mathop{\mathrm{tg}}\nolimits}
+\renewcommand{\ctg}{\mathop{\mathrm{ctg}}\nolimits}
+\renewcommand{\arctan}{\mathop{\mathrm{arctg}}\nolimits}
+\newcommand{\divisible}{\mathop{\raisebox{-2pt}{\vdots}}}
+\renewcommand{\not}{\overline}
+\newcommand{\modulo}{\mathop{\mathrm{mod}}\nolimits}
+
+
+\RequirePackage{caption2}
+\renewcommand\captionlabeldelim{}
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}%
+\newtheorem{Theorem}{Теорема}
+{\hbox{$\mathsurround=0pt #1$}}{}}
+
+\begin{document}
+
+
+\begin{center}
+{ \Large Задание на четвертую неделю.}
+
+\end{center}
+
+
+
+{\bf 1.} ($i$) Докажите, что в $\Sigma_2$ лежит язык булевых формул от двух наборов переменных $\varphi(x_1,\dotsc, x_n, y_1\dotsc y_n) = \varphi(\vec{x}, \vec{y})$ таких, что при некоторых значениях $\vec{x}$ они справедливы вне зависимости от значений $y_1,\dotsc, y_n$.
+
+($ii$) Придумайте какую-нибудь свою задачу из класса $\Sigma_3$ (или $\Pi_3$, на ваш вкус).
+
+($iii$) Докажите, что $\Sigma_k \subset \Sigma_{k+1}\cap \Pi_{k+1}$.
+
+($iv$) Докажите, что $\mathcal{NP}\subset\mathcal{PSPACE}\subset\mathcal{EXPTIME}$.
+
+\smallskip
+
+{\bf 2.} Покажите, как свести следующую задачу к вычислению некоторого перманента: найти количество перестановок $n$ элементов, в которых части элементов (с номерами $i_1, i_2,\dotsc i_k$) запрещено занимать позиции $j_1, \dotsc j_k$ соответственно.
+
+\smallskip
+
+{\bf 3.} Докажите, что если всякий $\mathcal{NP}$-трудный язык является $\mathcal{PSPACE}$-трудным, то $\mathcal{PSPACE} = \mathcal{NP}$.
+
+\smallskip
+
+{\bf 4.} Докажите, что следующие языки лежат в $\mathcal{L}$: 
+
+($i$) $\{a\#b\#c|c=a+b\}$ ($a$, $b$, $c$~---~числа в двоичной записи).
+
+($ii$) $\{a\#b\#c|c=a\cdot b\}$ ($a$, $b$, $c$~---~числа в двоичной записи).
+
+($iii$) $UCYCLE = \{G  \ | \ \mbox{В неориентированном графе $G$ есть цикл}\}$
+
+\smallskip
+
+{\bf 5.} Сертификатное определение $\mathcal{NL}$: $A \in \mathcal{NL}$ тогда и только тогда, когда для некоторой детерминированной машины $M$ выполнена эквивалентность: $x \in A \Leftrightarrow \exists s : \ M(x, s) = 1$. При этом длина $s$ должна быть полиномиальна от длины $x$, машина получает $s$ на отдельной ленте, по которой может двигаться только слева направо, а количество ячеек, занятых на рабочей ленте, должно быть логарифмическим.
+
+Вопрос задачи: а какой класс получится, если в предыдущем определении разрешить машине двигаться по сертификатной ленте в обе стороны?
+
+\smallskip
+
+{\bf 6.} Докажите, что логарифмическая сводимость транзитивна, причем если $B \in \mathcal{L}$ и $A \leq_L B$, то $A \in \mathcal{L}$, а если $B \in \mathcal{NL}$ и $A \leq_L B$, то $A \in \mathcal{NL}$. 
+
+\smallskip
+
+%{\bf 7.} а) Верно ли, что существует такая функция $f: \mathbb{N} \rightarrow  \mathbb{N}$, для любых констант $\forall\, c,d> 0$ выполнено $$f(n) = \omega(n^c),\ f(n) = o(2^{nd}),$$ т.~е. функция $f(n)$ растет быстрее любого заданного полинома, но медленнее любой заданной экспоненты?
+
+%б) Некто анонсировал теорему (т.~е. утверждение может быть и неверно), что любой МТ требуется $\Omega(n \log_2^{\log_2 n} n)$ тактов для того, чтобы проверять тавтологичность формул, заданных в формате  {\sc 4-ДНФ}, т.~е. дизъюнктивных нормальных форм, в каждый конъюнкт которых входит не более четырех переменных (здесь $n$~--- длина входа).  Считаем, что теорема верна. Верно ли, что из этого вытекает, что $\mathcal{P}$ не совпадает с $co-\mathcal{NP}$?
+
+
+{\bf 7 (Бонусная).} Верно ли, что класс co-$\mathcal{NP}$ замкнут относительно операции чётной итерации $L^{even-*} = \{\varepsilon\} \cup L^2 \cup L^4 \cup\dotsc$?
+
+
+{\bf 8 (Бонусная).} Докажите, что $C_n^0-C_{n-1}^1 + C_{n-2}^2-\dotsc = \dfrac{\sin\left(\frac{\pi(n+1)}{3}\right)}{\sin\frac{\pi}{3}}$.
+
+\end{document}
+
+
