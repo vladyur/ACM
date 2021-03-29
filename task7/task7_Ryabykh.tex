@@ -1,0 +1,121 @@
+\documentclass[a4paper,12pt]{article}
+
+\input{AMV_Preamble.tex}
+
+\begin{document}
+	
+	\thispagestyle{firstpage}
+	
+	\begin{center}
+		\textbf{\Large{Алгоритмы и модели вычислений. \\ Домашнее задание № 7}}
+	\end{center}
+	
+\begin{tasknum}{1}
+	\begin{enumerate}
+		\item Докажите, что $NC^d \subseteq AC^d \subseteq NC^{d+1}$.
+		\item Докажите, что $\bigcup\limits_{d=1}^{\infty} AC^d = NC$.
+\end{enumerate}
+\end{tasknum}
+
+\begin{solution}
+	\begin{enumerate}
+		\item Вложение $NC^d \subseteq AC^d$ очевидно: если некоторый язык распознаётся схемами с двумя входными литералами с глубиной $O(\log^d n)$, то он распознаётся схемами с произвольным количеством входных литералов с глубиной $O(\log^d n)$ (можно просто взять ту же последовательность схем)
+		
+		Докажем теперь вложение $AC^d \subseteq NC^{d+1}$: для этого сначала покажем, как мы будем разворачивать вершины $\vee$ и $\wedge$ произвольных схем из $AC^d$: 
+		
+		Изначально имеем следующую схему:
+		
+		\begin{center}
+			\begin{tikzpicture}[->,shorten >=1pt,auto,node distance=2.8cm]
+			\node[state]                (A)                  {$x_1$};
+			\node[state]              (B) [right of=A]     {$x_2$};
+			\node[state]                        (C) [right of=B]     {$x_3$};
+			\node[state]                        (E) [right of=C]     {$x_4$};
+			\node[state]                        (D) [below right of=B]   {$\vee$};
+			
+			\path
+			(A) edge node [swap] {} (D)
+			(B) edge  node {} (D)
+			(E) edge  node {} (D)
+			(C) edge             node {} (D);
+			\end{tikzpicture}
+		\end{center}
+		
+		Разворачиваем её следующим образом:
+		
+		\begin{center}
+			\begin{tikzpicture}[->,shorten >=1pt,auto,node distance=2.8cm]
+			\node[state]                (A)                  {$x_1$};
+			\node[state]              (B) [right of=A]     {$x_2$};
+			\node[state]                        (C) [right of=B]     {$x_3$};
+			\node[state]                        (F) [right of=C]     {$x_4$};
+			\node[state]                        (D) [below right of=A]   {$\vee$};
+			\node[state]                        (E) [below left of=F]   {$\vee$};
+			\node[state]                        (G) [below right of=D]   {$\vee$};
+			
+			\path
+			(A) edge node [swap] {} (D)
+			(B) edge  node {} (D)
+			(F) edge  node {} (E)
+			(E) edge  node {} (G)
+			(D) edge  node {} (G)
+			(C) edge             node {} (E);
+			\end{tikzpicture}
+		\end{center}
+		
+		Докажем, что если мы в произвольной схеме глубины $O(\log^d n)$ развернём все вершины $\vee$ и $\wedge$ входящей степени $> 2$, то мы получим схему глубиной $O(\log^{d+1} n)$. Пусть некоторая вершина исходной схемы имеет входную степень $k$. Тогда заметим, что так как в нашей развёртке количество входов с каждым уравнем сокращается вдвое, то эта вершина преобразуется в дерево глубины $\log_2 k$. Таким образом глубина исходной схемы $O(\log^d n)$, а глубина каждого из её уровней после преобразования есть $O(\log n)$, то есть итоговая глубина преобразованной схемы будет $O(\log^d n) \cdot O(\log n) = O(\log^{d+1} n)$, таким образом $AC^d \subseteq NC^{d+1}$, что и требовалось.
+		
+		\item По доказанному в прошлом пункте $NC^d \subseteq AC^d \subseteq NC^{d+1}$, тогда $NC = \bigcup\limits_{d=1}^{\infty} NC^d \subseteq \bigcup\limits_{d=1}^{\infty} AC^d \subseteq \bigcup\limits_{d=1}^{\infty} NC^{d+1} \subseteq \bigcup\limits_{d=1}^{\infty} NC^d = NC$
+		
+		То есть $NC \subseteq \bigcup\limits_{d=1}^{\infty} AC^d \subseteq NC$, то есть  $\bigcup\limits_{d=1}^{\infty} AC^d = NC$, что и требовалось.
+	\end{enumerate}
+\end{solution}
+
+\begin{tasknum}{2}
+	Докажите, что язык $PAL = \{a \ | \ a = a^R\}$, где $a^R$~---~слово $a$, записанное в обратном порядке, лежит в $AC^0$
+\end{tasknum}
+
+\begin{solution}
+	$AC^0$~---~язык слов, распознаваемых схемами типа $AC$ и имеющих при этом константную глубину. Зафиксируем базис $\neg, \vee, \wedge$. Так как $a \oplus b = (a \wedge \neg b) \vee (\neg a \wedge b)$, то добавление в базис символа $\oplus$ увеличивает размер схемы в константу раз (будем использовать $\oplus$, так как предикат <<$a_i$ совпадает с $a_j$>> можно записать в виде $\neg(a_i \oplus a_j)$)
+	
+	Таким образом $a=a_1a_2\ldots a_n \in PAL \LRa \neg(a_1 \oplus a_n) \wedge \neg(a_2 \oplus a_{n-1}) \wedge \ldots = 1$, и, собственно, мы можем вычислить эту функцию на схеме типа $AC$ константной глубины:
+	
+	
+	\begin{center}
+	\begin{tikzpicture}[->,shorten >=1pt,auto,node distance=2.8cm]
+	\node[state]                (A)                  {$a_1$};
+	\node[state]              (B) [right of=A]     {$a_2$};
+	\node[state]                        (C) [right of=B]     {$a_3$};
+	\node[state]                        (F) [right of=C]     {$a_4$};
+	\node[state]                        (a5) [right of=F]     {$a_5$};
+	\node[state]                        (a6) [right of=a5]     {$a_6$};
+	\node[state]                        (op) [below left of=a6]   {$\oplus$};
+	\node[state]                        (D) [below right of=A]   {$\oplus$};
+	\node[state]                        (E) [below right of=C]   {$\oplus$};
+	\node[state]                        (neg1) [below of=D]   {$\neg$};	
+	\node[state]                        (neg2) [below of=E]   {$\neg$};	
+	\node[state]                        (neg3) [below of=op]   {$\neg$};	
+	\node[state]                        (G) [below of=neg2]   {$\wedge$};
+	
+	\path
+	(A) edge node [swap] {} (D)
+	(B) edge  node {} (op)
+	(a5) edge  node {} (op)
+	(a6) edge  node {} (D)
+	(op) edge  node {} (neg3)
+	(F) edge  node {} (E)
+	(D) edge  node {} (neg1)
+	(E) edge  node {} (neg2)
+	(neg1) edge  node {} (G)
+	(neg2) edge  node {} (G)
+	(neg3) edge  node {} (G)
+	(C) edge             node {} (E);
+	\end{tikzpicture}
+\end{center}
+
+Мы получили схему константной длины, которая вычисляет язык $PAL \Ra PAL \in AC^0$, что и требовалось.
+
+\end{solution}
+
+
+\end{document}
