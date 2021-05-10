@@ -1,0 +1,516 @@
+\documentclass[a4paper,12pt]{article}
+
+\input{AMV_Preamble.tex}
+
+\newcommand{\prob}[1]{\mathbb{P}\left\{#1\right\}}
+\newcommand{\expected}[1]{\mathbb{E}\left\{#1\right\}}
+
+\DeclareMathOperator{\circul}{circ}
+
+\begin{document}
+	
+	\thispagestyle{firstpage}
+	
+	\begin{center}
+		\textbf{\Large{Алгоритмы и модели вычислений. \\ Домашнее задание № 10}}
+	\end{center}
+	
+\begin{task}
+Докажите формулу обращения: $(M_n(\omega))^{-1} = \dfrac{1}{n}M_n(\omega^{-1})$. Вычислите также матрицу $(M_n(\omega))^4$.
+\end{task}
+
+\begin{solution}
+	Домножим обе части слева на  $M_n(\omega)$, теперь имеем равенство \[E = \dfrac{1}{n} M_n(\omega) M_n(\omega^{-1}) \] Нам надо доказать, что справа действительно получается единичная матрица. Для этого раскроем по определению произведения матриц, какой элемент стоит на $i$-й строчке в $j$-м столбце: \[a_{ij} = \dfrac1n \cdot \displaystyle \sum_{s = 0}^{n-1} (w_{n}^i)^s (w_{n}^{s})^{-j} = \dfrac1n \cdot \displaystyle \sum_{s = 0}^{n-1} (w_{n}^{i-j})^s \]
+	
+	\begin{itemize}
+		\item $i \ne j$: $a_{ij} = \dfrac1n \cdot \displaystyle \sum_{s = 0}^{n-1} (w_{n}^{i-j})^s = \dfrac{(w_{n}^{i-j})^n - 1}{w_{n}^{i-j} - 1} = 0$, так как $w$~---~корень из единицы
+		\item $i = j$: $a_{ij} = \dfrac1n \cdot \displaystyle \sum_{s = 0}^{n-1} \exp\left(\frac{2\pi s (i-j)}{n}\right) = \dfrac1n \cdot \displaystyle \sum_{s = 0}^{n-1} \exp(0) = \dfrac1n \cdot \displaystyle \sum_{s = 0}^{n-1} 1 = 1$
+	\end{itemize}
+
+	Таким образом матрица $A = (a_{ij}) = \dfrac{1}{n} M_n(\omega) M_n(\omega^{-1})$ действительно является единичной, что доказывает формулу обращения $(M_n(\omega))^{-1} = \dfrac{1}{n}M_n(\omega^{-1})$.
+
+
+Вычислим теперь матрицу $(M_n(\omega))^4$. Так как $(M_n(\omega))^4 = (M_n(\omega))^2 \cdot (M_n(\omega))^2$, то вычислим сначала $(M_n(\omega))^2$, для этого раскроем по определению произведения матриц, какой элемент стоит на $i$-й строчке в $j$-м столбце: \[a_{ij} = \displaystyle \sum_{s = 0}^{n-1} (w_{n}^i)^s (w_{n}^{s})^{j} = \displaystyle \sum_{s = 0}^{n-1} (w_{n}^{i+j})^s\]
+
+Аналогично предыдущему пункту:
+
+\begin{equation*}
+a_{ij} =
+\left\{
+\begin{array}{lr}
+0, & (i+j) \text{ не кратно } n\\
+n, & (i+j) \ \ \ \ \text{ кратно } n
+\end{array}
+\right.
+\end{equation*}
+
+Таким образом, матрица $(M_n(\omega))^2 = (a_{ij})$ имеет вид
+
+\begin{equation*}
+(M_n(\omega))^2 = \left(
+\begin{array}{ccccc}
+n & 0 & \ldots & 0\\
+0 & 0 & \ldots & n\\
+\vdots & \vdots & \ddots & \vdots\\
+0 & 0 & \ldots & 0 \\
+0 & n & \ldots & 0
+\end{array}
+\right)
+\end{equation*}
+
+И теперь легко видеть, что $(M_n(\omega))^4 = (M_n(\omega))^2 \cdot (M_n(\omega))^2 = n^2 \cdot E$
+
+\end{solution}
+
+\begin{task}
+	Найдите произведение многочленов $A(x) = x^3+3x+2$ и $B(x)=3x^3+3x^2+2$ с помощью алгоритма быстрого преобразования Фурье. Для этого найдите рекурсивно дискретное преобразование Фурье двух массивов $A=(0,0,0,0,1,0,3,2)$ и $B=(0,0,0,0,3,3,0,2)$, затем вычислите ДПФ массива $C$ и восстановите коэффициенты многочлена-произведения, используя обратное преобразование.
+\end{task}
+
+\begin{solution}
+	$reversed(A) = (a_0, a_1, a_2, a_3, a_4, a_5, a_6, a_7) = (2,3,0,1,0,0,0,0) \ra (2,0,0,0); (3,1,0,0) \ra (2,0), (0, 0), (3,0), (1,0) = (a_0, a_4), (a_2, a_6), (a_1, a_5), (a_3, a_7)$
+	
+	На каждом шаге мы делим массив на 2 части, помещая в один все элементы, стоящие на нечётных местах, а в другой~---~все, стоящие на чётных.
+	
+	Умножим каждый из получившихся массивов (рассматриваем их как столбцы) на матрицу $M_2$.
+	
+	\begin{equation*}
+	M_2 = \left(
+	\begin{array}{cc}
+	1 & 1 \\
+	1 & -1
+	\end{array}
+	\right)
+	\end{equation*}
+	
+	Получим:
+	
+	\begin{align*}
+	M_2 \cdot (a_0,a_4)^T = (2,2) \\
+	M_2 \cdot (a_2,a_6)^T = (0,0) \\
+	M_2 \cdot (a_1,a_5)^T = (3,3) \\
+	M_2 \cdot (a_3,a_7)^T = (1,1) \\
+	\end{align*}
+	
+	По рекурсии:
+	
+	\begin{gather*}
+	M_4 \cdot (a_0,a_2,a_4,a_6)^T =  \left(
+	\begin{array}{c}
+	M_2 \cdot (a_0,a_4)^T \\
+	M_2 \cdot (a_0,a_4)^T
+	\end{array}
+	\right) + \left(
+	\begin{array}{c}
+	D \cdot M_2 \cdot (a_2,a_6)^T \\
+	-D \cdot M_2 \cdot (a_2,a_6)^T
+	\end{array}
+	\right) = \left(
+	\begin{array}{c}
+	2 \\
+	2 \\
+	2 \\
+	2
+	\end{array}
+	\right) + \left(
+	\begin{array}{c}
+	0 \\
+	0 \\
+	0 \\
+	0
+	\end{array}
+	\right) = \left(
+	\begin{array}{c}
+	2 \\
+	2 \\
+	2 \\
+	2
+	\end{array}
+	\right)\\
+	M_4 \cdot (a_1,a_3,a_5,a_7)^T =  \left(
+	\begin{array}{c}
+	M_2 \cdot (a_1,a_5)^T \\
+	M_2 \cdot (a_1,a_5)^T
+	\end{array}
+	\right) + \left(
+	\begin{array}{c}
+	D \cdot M_2 \cdot (a_3,a_7)^T \\
+	-D \cdot M_2 \cdot (a_3,a_7)^T
+	\end{array}
+	\right) = \left(
+	\begin{array}{c}
+	3 \\
+	3 \\
+	3 \\
+	3
+	\end{array}
+	\right) + \left(
+	\begin{array}{c}
+	1 \\
+	-i \\
+	-1 \\
+	-i
+	\end{array}
+	\right) = \left(
+	\begin{array}{c}
+	4 \\
+	3+i \\
+	2 \\
+	3-i
+	\end{array}
+	\right)\\
+	\end{gather*}
+	
+	Итого получаем
+	
+	\begin{equation*}
+	A = M_8 \cdot \left(
+	\begin{array}{c}
+	a_0 \\
+	a_1 \\
+	a_2 \\
+	a_3 \\
+	a_4 \\
+	a_5 \\
+	a_6 \\
+	a_7
+	\end{array}
+	\right) = \left(
+	\begin{array}{c}
+	2 \\
+	2 \\
+	2 \\
+	2 \\
+	2 \\
+	2 \\
+	2 \\
+	2
+	\end{array}
+	\right) + \left(
+	\begin{array}{c}
+	4 \\
+	2\sqrt{2}i + \sqrt{2} \\
+	2i \\
+	2\sqrt{2}i - \sqrt{2} \\
+	-4 \\
+	-2\sqrt{2}i - \sqrt{2} \\
+	-2i \\
+	-2\sqrt{2}i + \sqrt{2}
+	\end{array}
+	\right) = \left(
+	\begin{array}{c}
+	6 \\
+	2\sqrt{2}i + 2 + \sqrt{2} \\
+	2i + 2 \\
+	2\sqrt{2}i + 2 - \sqrt{2} \\
+	-2 \\
+	-2\sqrt{2}i + 2 - \sqrt{2} \\
+	-2i + 2 \\
+	-2\sqrt{2}i + 2 + \sqrt{2}
+	\end{array}
+	\right)
+	\end{equation*}
+	
+	Для многочлена $B$ аналогично получаем:
+	
+	\begin{equation*}
+	B = M_8 \cdot \left(
+	\begin{array}{c}
+	b_0 \\
+	b_1 \\
+	b_2 \\
+	b_3 \\
+	b_4 \\
+	b_5 \\
+	b_6 \\
+	b_7
+	\end{array}
+	\right) = \left(
+	\begin{array}{c}
+	8 \\
+	\left(2 - \frac{3\sqrt{2}}{2}\right) + \left(3 + \frac{3\sqrt{2}}{2}\right)i \\
+	-1 - 3i \\
+	\left(2 + \frac{3\sqrt{2}}{2}\right) + \left(-3 + \frac{3\sqrt{2}}{2}\right)i \\
+	2 \\
+	\left(2 + \frac{3\sqrt{2}}{2}\right) + \left(3 - \frac{3\sqrt{2}}{2}\right)i \\
+	-1 + 3i \\
+	\left(2 - \frac{3\sqrt{2}}{2}\right) + \left(-3 - \frac{3\sqrt{2}}{2}\right)i
+	\end{array}
+	\right)
+	\end{equation*}
+	
+	Умножим поэлементно $A$ на $B$:
+	\begin{equation*}
+	C = A^T \underset{\text{элем}}{\cdot} B = \left(
+	\begin{array}{c}
+	48 \\
+	(-5 - 7\sqrt{2}) + (3+10\sqrt{2})i \\
+	4-8i \\
+	(-5 + 7\sqrt{2}) + (-3+10\sqrt{2})i \\
+	-4 \\
+	(-5 + 7\sqrt{2}) + (3-10\sqrt{2})i \\
+	4+8i \\
+	(-5 - 7\sqrt{2}) + (-3-10\sqrt{2})i
+	\end{array}
+	\right)
+	\end{equation*}
+	
+	Так как $M_n^{-1}(w) = M_n(w^{-1})$, то посчитаем произведение $M_8^{-1} \cdot C$, итого получим
+	
+	\begin{equation*}
+	\left(
+	\begin{array}{c}
+	c_0 \\
+	c_1 \\
+	c_2 \\
+	c_3 \\
+	c_4 \\
+	c_5 \\
+	c_6 \\
+	c_7
+	\end{array}
+	\right) =  \left(
+	\begin{array}{c}
+	4 \\
+	6 \\
+	6 \\
+	17 \\
+	9 \\
+	3 \\
+	3 \\
+	0
+	\end{array}
+	\right)
+	\end{equation*}
+	
+\end{solution}
+
+\begin{task}
+	Даны числа $x_1,\dotsc, x_n$. Доказать, что коэффициенты многочлена  $f(x) = \displaystyle\prod_{i = 1}^n (x-x_i)$, можно найти за $O(n \log_2^2 n)$ арифметических операций.
+\end{task}
+
+\begin{solution}
+	На первом уровне проводим $\frac{n}{2}$ перемножений: перемножаются многочлены $(x-x_1)$ c $(x-x_2)$; $(x-x_3)$ с $(x-x_4); \ldots$. Затем также перемножаем полученные многочлены между собой, пока не останется только один многочлен.
+	
+	Всего мы получим $\log_2 n$ уровней, также необходимо заметить, что степень многочленов возрастает вдвое на каждом уровне (а многочлены степени $k$ перемножаются за $O(k\log k)$ с помощью преобразования Фурье). Таким образом, итоговая сложность \[T(n) \le C \cdot \displaystyle \sum_{i = 1}^{\log_2 n} \dfrac{n}{2} i = C \cdot \dfrac{n}{2} \cdot \dfrac{\log_2 n \cdot (\log_2 n + 1)}{2} \Ra T(n) = O(n \log_2^2 n)\]
+\end{solution}
+
+\begin{task}
+	Используя  ДПФ, найдите решение системы линейных уравнений $Cx=b$. где $C$~--- это циркулянтная матрица, порожденная вектором столбцом $(1,2,4,8)^T$, а $b^T=(16,8,4,2)$.
+\end{task}
+
+\begin{solution}
+	Циркулянтная матрица $C$ есть
+	
+	\begin{equation*}
+	C = \left(
+	\begin{array}{cccc}
+	1 & 8 & 4 & 2\\
+	2 & 1 & 8 & 4\\
+	4 & 2 & 1 & 8\\
+	8 & 4 & 2 & 1
+	\end{array}
+	\right)
+	\end{equation*}
+	
+	Матрица $C$ имеет размерность $4\times4$, так что в $w = i$. Обозначим $\lambda_j$~---~собственные значения $C$, тогда $\lambda_i = \displaystyle \sum_{k = 0}^{n-1} c_{n-k} \cdot (i)^{jk}$ (считаем, что $c_0 = c_n$; формула из задачи 6). Тогда получаем
+	
+	\begin{gather*}
+	\lambda_0 = 1 + 8 + 4 + 2 =15\\
+	\lambda_1=1+8i-4-2i=-3+6i\\
+	\lambda_2=1-8+4-2=-5\\
+	\lambda_3=1-8i-4+2i=-3-6i\\
+	\end{gather*}
+	
+	Таким образом матрицы $\Lambda$ и $\Lambda^{-1}$ имеют вид:
+	
+	
+	\begin{equation*}
+	\Lambda = \left(
+	\begin{array}{cccc}
+	15 & 0 & 0 & 0\\
+	0 & -3+6i & 0 & 0\\
+	0 & 0 & -5 & 0\\
+	0 & 0 & 0 & -3-6i
+	\end{array}
+	\right) \Ra
+	\Lambda^{-1} = \left(
+	\begin{array}{cccc}
+	\dfrac{1}{15} & 0 & 0 & 0\\
+	0 & \dfrac{1}{-3+6i} & 0 & 0\\
+	0 & 0 & -\dfrac{1}{5} & 0\\
+	0 & 0 & 0 & -\dfrac{1}{3+6i}
+	\end{array}
+	\right)
+	\end{equation*}
+	
+	В нашей задаче матрица Фурье принимает вид:
+	
+	\begin{equation*}
+	F = \left(
+	\begin{array}{cccc}
+	1 & 1 & 1 & 1\\
+	1 & i & -1 & -i\\
+	1 & -1 & 1 & -1\\
+	1 & -i & -1 & i
+	\end{array}
+	\right) \Ra
+	F^{*} = \left(
+	\begin{array}{cccc}
+	1 & 1 & 1 & 1\\
+	1 & -i & -1 & i\\
+	1 & -1 & 1 & -1\\
+	1 & i & -1 & -i
+	\end{array}
+	\right)
+	\end{equation*}
+
+$Cx = b \Ra x = C^{-1}b; C = F\Lambda F^{-1} \Ra C^{-1} = F \Lambda^{-1} F^{-1} = \dfrac{1}{4}F\Lambda^{-1}F^{*} \Ra x = \dfrac14 \cdot F\Lambda^{-1}F^{*} \cdot b$
+
+\begin{equation*}
+x = \dfrac{1}{4} \cdot \left(
+\begin{array}{cccc}
+1 & 1 & 1 & 1\\
+1 & i & -1 & -i\\
+1 & -1 & 1 & -1\\
+1 & -i & -1 & i
+\end{array}
+\right) \cdot \left(
+\begin{array}{cccc}
+\dfrac{1}{15} & 0 & 0 & 0\\
+0 & \dfrac{1}{-3+6i} & 0 & 0\\
+0 & 0 & -\dfrac{1}{5} & 0\\
+0 & 0 & 0 & -\dfrac{1}{3+6i}
+\end{array}
+\right) \cdot \left(
+\begin{array}{cccc}
+1 & 1 & 1 & 1\\
+1 & -i & -1 & i\\
+1 & -1 & 1 & -1\\
+1 & i & -1 & -i
+\end{array}
+\right) \cdot \left(
+\begin{array}{c}
+16 \\
+8 \\
+4 \\
+2
+\end{array}
+\right) = \left(
+\begin{array}{c}
+-0.8 \\
+1.6 \\
+0.8 \\
+0.4
+\end{array}
+\right)
+\end{equation*}
+	
+\end{solution}
+
+\begin{task}
+	Обозначим для вектора $\vec{x}$ циркулянтную матрицу с первым столбцом $\vec{x}$ за $\circul(\vec{x})$. Назовём циклической свёрткой $\vec{x}*\vec{y}$ двух векторов произведение матрицы на вектор $\circul(\vec{x})\vec{y}$. Докажите, что $FFT(\vec{x}*\vec{y})$ есть произведение векторов $FFT(\vec{x})$ и $FFT(\vec{y})$ по Адамару (т.~е. поэлементное: $i$-ая компонента вектора-произведения есть произведение $i$-ых компонент сомножителей).
+\end{task}
+
+\begin{solution}
+	\begin{equation*}
+	X = \circul(\vec{x}) = \left(
+	\begin{array}{ccccc}
+	x_0 & x_{n-1} & x_{n-2} & \ldots & x_1\\
+	x_1 & x_0 & x_{n-1} & \ldots & x_2\\
+	x_2 & x_1 & x_0 & \ldots & x_3\\
+	\vdots & \vdots & \ddots & \vdots\\
+	x_{n-1} & x_{n-2} & x_{n-3} & \ldots & x_0
+	\end{array}
+	\right)
+	\end{equation*}
+	
+Обозначим $A = \circul(\vec{x})\vec{y}$.
+
+Тогда $a_j$ можно записать в виде $a_j = \displaystyle \sum_{m=0}^{j} x_m y_{j-m} + \displaystyle \sum_{m = j+1}^{n-1} x_m y_{n+j-m}$
+
+Обозначим $B = FFT(\vec{x}*\vec{y})$.
+
+Так как $B = FA$, запишем $b_i$ в виде $b_i = \displaystyle \sum_{k=0}^{n-1} (w^i)^k \left( \displaystyle \sum_{m=0}^{k} x_m y_{k-m} + \displaystyle \sum_{m=k+1}^{n-1} x_m y_{n+k-m} \right)$
+	
+Обозначим $C = FFT(\vec{x}) \underset{\text{элем}}{\cdot} FFT(\vec{y}) = (F\vec{x}) \cdot (F\vec{y})$ (умножение поэлементное).
+
+Тогда $c_i = \displaystyle \sum_{j=0}^{n-1} (w^i)^j x_j \cdot \displaystyle \sum_{k=0}^{n-1} (w^i)^k y_k$
+
+Так как $(w^i)^n = 1$, то коэффициент при $(w^i)^k$ имеет вид $\displaystyle \sum_{j=0}^{k} x_j y_{k-j} + \displaystyle \sum_{j=k+1}^{n-1} x_j y_{n+k-j}$
+	
+Коэффициенты при $(w^i)^k$ в выражении $b_i$ абсолютно такие же, из чего и следует утверждение задачи: $FFT(\vec{x}*\vec{y}) = FFT(\vec{x}) \underset{\text{элем}}{\cdot} FFT(\vec{y})$
+	
+\end{solution}
+
+\begin{task}
+	Рассмотрим циркулянтную матрицу порядка $n+1$, первый столбец которой равен $(c_0, c_1, \dotsc, c_n)^T$, т. е. матрицу вида
+	$$\begin{bmatrix}
+	c_0 & c_n & c_{n-1} & \dots & c_1 \\
+	c_1 & c_0 & c_n & \dots & c_2 \\ 
+	c_2 & c_1 & c_0 & \dots & c_3 \\ 
+	\vdots & \vdots & \vdots & \ddots & \vdots \\ 
+	c_n & c_{n-1} & c_{n-2} & \dots & c_0 \end{bmatrix}$$
+	
+	Докажите, что все её собственные значения, домноженные на $\frac{1}{\sqrt{n+1}}$, могут быть найдены умножением матрицы Фурье $F_n = \frac{1}{\sqrt{n+1}}\left(\omega_n^{ij}\right)_{i, j = 0}^{n}$ размеров $(n+1)\times (n+1)$, где $\omega_n~=~e^{\frac{2\pi i}{n}}$~--- корень из единицы, на вектор $(c_0, c_n, c_{n-1},\dotsc, c_1)^T$. Найдите с помощью алгоритма БПФ собственные значения циркулянтной матрицы, первый столбец которой имеет вид $(1, 2, 4, 6)^T$.
+\end{task}
+
+\begin{solution}
+	$\Lambda F_n = F_n C^T$. Посмотрим на первые столбцы обеих получающихся матриц:
+	\begin{itemize}
+		\item Первый столбец левой матрицы есть $\dfrac{1}{\sqrt{n+1}}(\lambda_0, \ldots, \lambda_n)^T$
+		\item Первый столбец правой матрицы есть $F_n(c_0, c_n, c_{n-1}, \ldots, c_1)^T$
+	\end{itemize}
+	
+	Таким образом \begin{equation*}
+	\left(
+	\begin{array}{c}
+	\lambda_1 \\
+	\lambda_2 \\
+	\vdots \\
+	\lambda_n
+	\end{array}
+	\right) = \sqrt{n+1} \cdot F_n \cdot \left(
+	\begin{array}{c}
+	c_1 \\
+	c_2 \\
+	\vdots \\
+	c_n
+	\end{array}
+	\right)
+	\end{equation*}
+	
+	Как в задаче номер 4, считаем собственные значения циркулянтной матрицы:
+	
+\begin{gather*}
+\lambda_0 = 1 + 6 + 4 + 2 =13\\
+\lambda_1=1+2i-4-6i=-3-4i\\
+\lambda_2=1-2+4-6=-3\\
+\lambda_3=1-2i-4+6i=-3+4i\\
+\end{gather*}
+	
+\end{solution}
+
+\begin{task}
+	Дано множество различных чисел $A\subseteq \{1,\dots,m\}$. Рассмотрим множество $A+A$, образованное суммами элементов $A$. 
+	Докажите или опровергните существование процедур построения
+	$A+A$, имеющих субквадратичную трудоемкость $o(m^2)$.
+\end{task}
+
+\begin{solution}
+	Заведём массив $B$ из $m$ элементов, определённых следующим образом \begin{equation*}
+	b_{i} =
+	\left\{
+	\begin{array}{lr}
+	0, & i \notin A\\
+	1, & i \in A
+	\end{array}
+	\right.
+	\end{equation*}
+	Определим $f(x) = \displaystyle \sum_{i=1}^{m} b_i x^i$, возведём массив во вторую степень за $O(m \log m)$ с помощью преобразования Фурье, получим $f^2(x) = \displaystyle \sum_{k=1}^{m} \displaystyle \sum_{l=1}^{m} b_k b_l x^{k+l}$
+	
+	Теперь можно сказать, что $b_k b_l \neq 0 \LRa k, l \in A \Ra k+l \in A + A$.
+	
+	Сложность алгоритма есть $O(m \log m)$, так как всё, помимо возведения многочлена $f$ в квадрат, выполняется за не более, чем линейное время. А так как алгоритм имеет сложность $O(m \log m)$, то также можно сказать, что он имеет сложность $o(m^2)$
+\end{solution}
+
+\end{document}

@@ -1,0 +1,65 @@
+\documentclass[12pt,a5paper,fleqn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, multicol ,wrapfig}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage[shortcuts,cyremdash]{extdash}
+\usepackage{wrapfig}
+\usepackage{floatflt}
+\usepackage{lipsum}
+\usepackage{concmath}
+\usepackage{euler}
+
+\graphicspath{ {images/} }
+
+\oddsidemargin=-17.9mm
+\textwidth=133mm
+\headheight=-35.4mm
+\textheight=200mm
+\parindent=0pt
+\tolerance=100
+\parskip=6pt
+\pagestyle{empty}
+\renewcommand{\tg}{\mathop{\mathrm{tg}}\nolimits}
+\renewcommand{\ctg}{\mathop{\mathrm{ctg}}\nolimits}
+\renewcommand{\arctan}{\mathop{\mathrm{arctg}}\nolimits}
+\newcommand{\divisible}{\mathop{\raisebox{-2pt}{\vdots}}}
+\renewcommand{\not}{\overline}
+\newcommand{\modulo}{\mathop{\mathrm{mod}}\nolimits}
+
+
+
+
+\RequirePackage{caption2}
+\renewcommand\captionlabeldelim{}
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}%
+\newtheorem{Theorem}{Теорема}
+{\hbox{$\mathsurround=0pt #1$}}{}}
+
+\begin{document}
+
+\begin{center}
+{ \Large Задание на восьмую неделю.}
+
+\end{center}
+
+{\bf 1.} Докажите, что $\mathcal{RP}\subset \mathcal{NP}$.
+
+{\bf 2.} Докажите, что если $\mathcal{P} = \mathcal{NP}$, то $\mathcal{P} = \mathcal{BPP}$. Докажите, что если $\mathcal{NP} \subseteq $ co-$\mathcal{RP}$, то $\mathcal{ZPP} = \mathcal{NP}$.
+
+{\bf 3.} Покажите, что в задаче сравнения больших файлов, разобранной на семинаре, вероятность ошибки действительно не превосходит $3/4$ при достаточно больших $n$. Оцените, насколько должно быть велико $n$ и покажите, что $n \textrm{ бит} \geq 32$~мегабайта~---~достаточное количество для справедливости оценок.
+
+{\bf 4.} Задача 1 из приложенного файла.
+
+{\bf 5.} Задача 2 из приложенного файла (пункты $(i)$ и $(iv)$). 
+
+\textit{Указание.} В этой задаче может быть полезна лемма Шварца-Зиппеля.
+
+{\bf 6.} Задача 4 из приложенного файла (разберитесь с алгоритмом Каргера по конспекту или любым другим источникам и выполните это упражнение).
+
+{\bf 7.} Докажите, что 2-$CNF$~---~задача из $\mathcal{P}$. Задача 3$(ii)$ из приложенного файла. 
+
+{\bf 8 (Бонусные задачи).} 1) Докажите теорему Татта; 2) Д-1 из файла.
+
+
+\end{document}

@@ -1,0 +1,81 @@
+\documentclass[12pt,a5paper,fleqn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, multicol}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage[shortcuts,cyremdash]{extdash}
+\usepackage{wrapfig}
+\usepackage{floatflt}
+\usepackage{lipsum}
+\usepackage{concmath}
+\usepackage{euler}
+\usepackage{algorithm}
+\usepackage{algpseudocode} 
+
+\graphicspath{ {images/} }
+
+\oddsidemargin=-17.9mm
+\textwidth=133mm
+\headheight=-35.4mm
+\textheight=200mm
+\parindent=0pt
+\tolerance=100
+\parskip=6pt
+\pagestyle{empty}
+\renewcommand{\tg}{\mathop{\mathrm{tg}}\nolimits}
+\renewcommand{\ctg}{\mathop{\mathrm{ctg}}\nolimits}
+\renewcommand{\arctan}{\mathop{\mathrm{arctg}}\nolimits}
+\newcommand{\divisible}{\mathop{\raisebox{-2pt}{\vdots}}}
+
+
+\RequirePackage{caption2}
+\renewcommand\captionlabeldelim{}
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}%
+\newtheorem{Theorem}{Теорема}
+{\hbox{$\mathsurround=0pt #1$}}{}}
+
+\begin{document}
+
+
+\begin{center}
+{ \Large Домашнее задание 11.}
+
+\end{center}
+
+{\bf 1.} Имеются окрашенные прямоугольные таблички трёх типов: черный квадрат размера $2\times 2$, белый квадрат того же размера и серый прямоугольник $2\times 1$ (последний можно поворачивать на $90^\circ$). Нужно подсчитать число способов $F_n$ замостить полосу размера $2\times n$. Найдите явную аналитическую формулу для $F_n$ и вычислите $F_{30000}$ по модулю $31$. 
+
+\smallskip
+
+{\bf 2.} Выполните задачи 1, Д-1 из приложенного файла (все по 1 баллу).
+
+\smallskip
+
+{\bf 3.} а) Верно ли, что существует такая функция $f: \mathbb{N} \rightarrow  \mathbb{N}$, для любых констант $\forall\, c,d> 0$ выполнено $$f(n) = \omega(n^c),\ f(n) = o(2^{nd}),$$ т.~е. функция $f(n)$ растет быстрее любого заданного полинома, но медленнее любой заданной экспоненты?
+
+б) Некто анонсировал теорему (т.~е. утверждение может быть и неверно), что любой МТ требуется $\Omega(n \log_2^{\log_2 n} n)$ тактов для того, чтобы проверять тавтологичность формул, заданных в формате  {\sc 4-ДНФ}, т.~е. дизъюнктивных нормальных форм, в каждый конъюнкт которых входит не более четырех переменных (здесь $n$~--- длина входа).  Считаем, что теорема верна. Верно ли, что из этого вытекает, что $\mathcal{P}$ не совпадает с $co-\mathcal{NP}$?
+
+\smallskip
+
+{\bf 4 (по $0{,}5$ балла).} а) Делится ли $4^{1356}-9^{4824}$ на $35$? Делится ли $5^{30000} - 6^{123456}$ на $31$?
+
+б) Найдите обратные $20 \ (\mbox{mod } 79)$, $3 \ (\mbox{mod } 62)$.
+
+в) Найдите все решения уравнения $35x = 10 \ (\mbox{mod } 50)$.
+
+г) Имеет ли решение сравнение $x^2 = 1597 $
+
+д) Найдите наименьшее натуральное число, имеющее остатки $2$, $3$, $1$ от деления на $5$, $13$ и $7$ соответственно.
+
+{\bf 5.} Предложите полиномиальный алгоритм нахождения количества натуральных решений диофантова уравнения $ax+by = c$. 
+
+\textit{По какому параметру он полиномиальный?...}
+
+
+
+
+
+
+
+\end{document}
+
+

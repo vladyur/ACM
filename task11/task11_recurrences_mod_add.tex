@@ -1,0 +1,338 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage[cp1251]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,wrapfig}
+%,wrapfig}
+\usepackage{epsfig}
+\usepackage{amssymb}
+\textheight=250mm
+\textwidth=186mm
+\hoffset=-8mm
+\voffset=-28mm
+\pagestyle{empty}
+%\title{ ЗАДАНИЕ 1: ИНДУКЦИЯ, ЯЗЫКИ ДИКА (СКОБОЧНЫХ ВЫРАЖЕНИЙ)}
+%\title{
+%\author{}
+\let\empty\varnothing
+\let\ph\varphi
+\let\eps\varepsilon
+\def\D{{\cal D}}
+\def\E{{\cal E}}
+\def\T{{\cal T}}
+\def\L{{\cal L}}
+\def\F{{\cal F}}
+\def\Q{{\cal Q}}
+\def\N{{\cal N}}
+\def\M{{\cal M}}
+\def\bM{{\bf M}}
+\def\bA{{\bf A}}
+\def\A{{\cal A}}
+\def\B{{\cal B}}
+\def\C{{\cal C}}
+\def\p{{\cal P}}
+\def\U{{\cal U}}
+\def\W{{\cal W}}
+\def\H{{\cal H}}
+\def\R{\cal R}
+\def\np{{\cal NP}}
+\def\psp{{\cal PSPACE}}
+\def\bp{{\cal BPP}}
+\def\rp{{\cal RP}}
+\def\zp{{\cal ZPP}}
+\def\DD{{\mathbb D}}
+\def\f{\tilde f}
+\def\EE{{\mathbb E}}
+\def\PP{{\mathbb P}}
+%\def\ZZ{{\mathbb Z}}
+%\def\RR{\mathbb R} 
+\def\ind{\mathop{\rm index}}
+\def\St{\mathop{\rm St}}
+\def\Poly{\mathop{\rm poly}\nolimits}
+\let\bd\partial
+\def\V{\ensuremath{{\cal V}}}
+\def\SS{{\mathbb S}}
+\def\RR{\mathbb R}
+\def\CC{\mathbb C}
+\def\ZZ{\mathbb Z}
+\def\NN{\mathbb N}
+\def\zam{{\bfЗамечание для семинаристов.}}
+\def\ss{\Sigma^* }
+\newtheorem{Definition}{Определение}
+\newtheorem{Theorem}{Теорема}
+\newtheorem{Lemma}{Лемма}
+\renewcommand{\figurename}{Рис.}
+
+\newcommand{\Rnum}[1]{\expandafter{\romannumeral #1\relax}}
+\newcommand{\RNum}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+
+\newcounter{problem}
+\newcounter{extraproblem}
+\newcounter{uproblem}
+\newcounter{subproblem}
+\newcounter{prvar}
+\def\pr{\medskip\noindent\stepcounter{problem}{\bf \theproblem .  }\setcounter{subproblem}{0} }
+\def\prstar{\medskip\noindent\stepcounter{problem}{\bf $\mathbf{\theproblem}^*$\negthickspace.  }\setcounter{subproblem}{0} }
+\def\prpfrom[#1]{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem~(№#1 из задания).  }\setcounter{subproblem}{0} }
+\def\prp{\medskip\noindent\stepcounter{problem}{\bf Задача \theproblem .  }\setcounter{subproblem}{0} }
+\def\extraprp{\medskip\noindent\stepcounter{extraproblem}{\bf Задача Д--\theextraproblem .  }\setcounter{subproblem}{0} }
+%
+\def\myprsub{\medskip\noindent\stepcounter{subproblem}{\bf Задача \theproblem . \thesubproblem .  } }
+\def\myextraprsub{\medskip\noindent\stepcounter{subproblem}{\bf Задача Д--\theextraproblem .  \thesubproblem .  } } 
+%
+\def\prpvar{\medskip\noindent\stepcounter{problem}\setcounter{prvar}{1}{\bf Задача \theproblem \;({\rm\Rnum{\theprvar}}).  }\setcounter{subproblem}{0} }
+\def\prpv{\medskip\noindent\stepcounter{prvar}{\bf Задача \theproblem \;({\rm\Rnum{\theprvar}}).  }\setcounter{subproblem}{0} }
+
+\def\prpstar{\medskip\noindent\stepcounter{problem}{\bf Задача $\bf\theproblem^*$\negthickspace.  }\setcounter{subproblem}{0} }
+\def\prdag{\medskip\noindent\stepcounter{problem}{\bf Задача $\theproblem^{^\dagger}$\negthickspace\,.  }\setcounter{subproblem}{0} }
+\def\upr{\medskip\noindent\stepcounter{uproblem}{\bf Упражнение \theuproblem .  }\setcounter{subproblem}{0} }
+%\def\prp{\vspace{5pt}\stepcounter{problem}{\bf Задача \theproblem .  } }
+%\def\prs{\vspace{5pt}\stepcounter{problem}{\bf \theproblem .*   }
+\def\prsub{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem .  } }
+\def\prsubr{\medskip\noindent\stepcounter{subproblem}{\rm \thesubproblem)  } }
+\def\prsubstar{\medskip\noindent\stepcounter{subproblem}{\rm $\thesubproblem^*$\negthickspace.  } }
+\def\prsubrstar{\medskip\noindent\stepcounter{subproblem}{\rm $\thesubproblem^*$)  } }  
+
+\newcommand{\romb}[3]{
+\put(#1,#2){\circle*{1}}
+\put(#3,#2){\circle*{1}}
+\put(#1,#2){\line(1,1){5}}
+\put(#3,#2){\line(-1,-1){5}}
+\put(#3,#2){\line(-1,1){5}}
+} 
+
+%\def\theenumi{\roman{enumi}}
+
+\begin{document}
+
+
+
+\prp ($4\times 0.02$)
+{\footnotesize Ср.   {\bf [Кормен 1, задача 33.3]}.   
+Диаграмма графа $G$ изображена на рисунке. 
+
+\unitlength=1mm
+\begin{picture}(35,41)(-10,-10)
+\multiput(-3,-3)(26,26){2}{\circle{9}}
+\multiput(0,0)(20,0){2}{\circle*{}}
+\multiput(0,20)(20,0){2}{\circle*{}}
+%\put(0,25){\circle{10}}
+%\put(33,20){{\small 0}}
+%\put(30,20){\circle*{2}}
+\multiput(0,0)(20,0){2}{\line(0,1){20}}
+\multiput(0,0)(0,20){2}{\line(1,0){20}}
+\put(0,0){\line(1,1){20}}
+%\put(20,20){\line(1,0){10}}
+\put(-1,-3){{\small 4}}
+\put(-1,21){{\small 2}}
+\put(19,-3){{\small 3}}
+\put(19,21){{\small 1}}
+\end{picture}
+\medskip 
+
+
+
+Путь в графе~--- это произвольная последовательность смежных вершин (возможны возвраты):
+$c=\{v_1,\dots,v_l\}$. По определению, длина пути $c$ равна $l-1$.
+
+Пусть $g_n$ --- это число путей в $G$ длины $n$, которые начинаются
+в вершине $1$.
+ Из определения следует, что 
+$g(0)=1$ (единственный путь: $0\to 0$), а $g(1)=4$  (пути: $1\to 1,\, 1\to 2,\,
+1\to 4,\, 1\to 3)$.
+}
+%\smallskip
+
+%\noindent ({\em i}) 
+
+%\smallskip
+
+
+
+{\footnotesize 
+Пусть $A$ --- это матрица инциденций графа $G$:
+$$ A=
+\begin{pmatrix}
+1&1&1&1\\
+1&0&0&1\\
+1&0&0&1\\
+1&1&1&1
+\end{pmatrix}.
+$$
+}
+
+
+
+\smallskip
+
+\noindent ({\em i}) Вычислите  число $g(2)$ путей в $G$ длины $2$ и проверьте, что оно равно сумме элементов первой строки матрицы $A^2$. Объясните это совпадение и докажите общую формулу для $g(n)$. 
+
+
+\smallskip
+
+
+
+
+\noindent ({\em ii}) 
+Найдите рекуррентное соотношение, которому удовлетворяет 
+последовательность $\{g_n,\, n=0,1,\ldots\}$.
+
+{\footnotesize {\em Подсказка. В ответе должна получиться рекуррентность с целыми коэффициентами типа рекуррентности Фибоначчи:
+$g_{n+2}=Pg_{n+1}+Qg_n$. Можно просто подобрать коэффициенты и {\bf доказать}, 
+что они искомые. При этом необходимо вычислить хотя бы еще одно значение $g(n)$.}
+
+ Рассмотрим два способа вычисления $\{g_n,\, n=0,1,\ldots\}$. 
+
+Первый, основан на  том, что последовательность $\{g_n\}$ удовлетворяет рекуррентному соотношению, т. е. разностному уравнению, и это подсказывает следующий {\em матричный} способ ее вычисления. Имеет место  матричная формула\footnote{
+Поскольку для $\{g_n\}$  коэффициенты $P$ и $Q$~--- целые, то при вычислениях можно использовать только целую арифметику.
+} $\bigl(\begin{smallmatrix}
+g_n\\
+g_{n+1}
+\end{smallmatrix}
+\bigr)
+=
+\bigl(\begin{smallmatrix}
+0&1\\
+Q&P
+\end{smallmatrix}
+\bigr)^{n-1}
+\bigl(\begin{smallmatrix}
+g_1\\
+g_2
+\end{smallmatrix}
+\bigr)
+$
+
+
+При вычислении $\{g_n\}$ этим способом можно использовать быстрое, например, ``индийское возведение в степень'' $n$ за $O(\log n)$ 
+тактов\footnote{Мы разбирали этот алгоритм в первом задании, и он с необходимыми изменениями переносится на матрицы.}.
+
+Второй способ вычислений основан на явном аналитическом решении линейной рекуррентности,
+которое можно получить самостоятельно или воспользоваться алгоритмом из текста на 
+сайте. Например, для чисел
+Фибоначчи ($F_1=1, F_2=1,\ldots\,  F_{n+2}=F_{n+1}+F_n)$)  этот способ приводит к известной 
+ формуле Бине: 
+$F_n=\frac{(\frac{1+\sqrt{5}}2)^n -
+(\frac{1-\sqrt{5}}2)^n}{\sqrt{5}}$.
+У вас должна получится похожая формула,  также содержащая квадратичную иррациональность $\sqrt{d}=\sqrt{P^2+4Q}$.
+Вычисление по 
+аналитической  формуле реализуется чуть хитрее, чем по матричной.
+Для каждого значения $n$ нужно специфицировать операции и указать с какой точностью их нужно проводить (например, для 
+вычисления
+$\sqrt{d}$ нужно указать процедуру вычисления, задать точность вычисления и оценить битовую трудоемкость процедуры).
+
+
+
+{\em На самом деле, переход к собственным векторам матрицы 
+$
+\bigl(\begin{smallmatrix}
+0&1\\
+Q&P
+\end{smallmatrix}
+\bigr)
+$ 
+показывает, что оба алгоритмы  тесно связаны, и  
+матричный алгоритм можно рассматривать как корректный способ округления
+ответа, полученного по аналитической формуле.
+}
+
+
+Оценим трудоемкость нескольких алгоритмов вычисления $g_n$
+по простому модулю $p$.
+}
+
+ \smallskip
+ 
+\noindent ({\em iii}) Непосредственное вычисление по рекуррентной формуле. Оцените его трудоемкость при
+вычислении $A=g_{20000} \pmod{29}$.
+
+ \smallskip
+
+\noindent ({\em iv}) Докажите, что последовательность $\{g_n\}$ периодична по любому модулю. Оцените ее период для $\pmod{29}$ и найдите
+трудоемкость вычисления (сложность нахождения периода $+$
+сложность вычисления $A$) этим способом.   
+
+ \smallskip
+
+\extraprp ($3\times 0.02$)
+\noindent ({\em i})
+Пусть известно, что $5$ {\em является квадратичным вычетом} по $\pmod{p}$, например, $p=29$,
+т. е. разрешимо уравнение $x^2=5 \pmod{p}$. Обоснуйте алгоритм непосредственного вычисления 
+$A$ по аналитической формуле, т. е. прямо извлекая квадратный корень в конечном поле $\pmod{p}$ и проводя 
+дальнейшие арифметические вычисления.
+Вычислите $A$ этим способом. 
+Оцените трудоемкость вычисления $g_n\pmod{p}$ для этого случая.
+
+\smallskip
+
+\noindent ({\em ii}) Пусть теперь $5$ {\em НЕ является квадратичным 
+вычетом}
+по $\pmod{p}$, например, $p=23$. 
+Придумайте и обоснуйте использующий аналитическую формулу алгоритм вычисления чисел $\{g_n\}$ по такому модулю. 
+Проведите вычисления $A=g_{10000} \pmod{23}$. 
+Оцените трудоемкость вычисления $g_n\pmod{p}$ для этого случая. 
+
+\smallskip
+
+{\footnotesize
+ В этой задаче вам предстоит разобраться, как использовать матричный алгоритм для вычислении реккурентности по простому модулю. Мы уже знаем, что эффективность процедуры сильно (или даже критически) зависит от вычисления периода  $\{g_n\}\pmod{p}$. И, собственно, основной вопрос, на который хочется найти ответ, как найти период в матричном представлении  $\{g_n\}$. Предлагается придумать алгоритм самостоятельно и/или проанализировать следующий способ. Заметим, что нам повезло, и матрицу 
+ $\bigl(\begin{smallmatrix}
+0&1\\
+Q&P
+\end{smallmatrix}
+\bigr)
+$  можно диагонализировать, т. е. привести ее к виду 
+$S\bigl(\begin{smallmatrix}
+\lambda_1&0\\
+0&\lambda_2
+\end{smallmatrix}
+\bigr)
+ S^{-1}$, где $\lambda_1, \lambda_2$~--- это собственные числа, а $S$~--- невырожденная матрица. Возводя в $n$-ю степень, получим $S 
+\bigl(\begin{smallmatrix} 
+ \lambda_1^n&0\\
+0&\lambda_2^n
+\end{smallmatrix}
+\bigr)
+S^{-1}$. 
+ }
+ 
+ \noindent ({\em iii}) Наша задача состоит в том, чтобы  обосновать эти манипуляции при вычислениях $\pmod{p}$ и понять, в какую степень нужно возвести матрицу, чтобы получилась единичная матрица, т. е. получить аналог малой теоремы Ферма для матриц указанного вида\footnote{Обратите внимания, что прямого аналога малой теоремы Ферма для матриц быть не может, поскольку, например, существуют т.н. нильпотентные матрицы (какая-то их степень равна нулевой матрице). Удивительно, но тексты, посвященные аналогам теоремы Ферма для матриц, появились только в этом тысячелетии (см., www.mathnet.ru/mp238). В принципе, их мог написать сильный студент.} 
+ 
+ Оцените сложность вычисления периода и вычисления $\{g_n\}\pmod{p}$ матричным способом и сравните его с алгоритмами из пунктов ($i$)--($ii$).
+ 
+ 
+ 
+ 
+\smallskip
+{\footnotesize {\em Комментарий.} В последней задаче в пунктах ($i$)--($ii$) речь идет 
+о т.н. {\em квадратичных вычетах} и возникает естественный вопрос, как по данному числу $a$   
+проверить разрешимость уравнения $x^2=a\pmod{p}$ (в задаче
+$a=5,\, n=29,23$). Можно, конечно, перебрать все вычеты, используя $O(p)$ операций,
+но есть и более интеллигентный полиномиальный по 
+{\bf длине записи} $\log p$ алгоритм, Он основан на знаменитом {\em квадратичном законе взаимности}, о котором можно прочитать в книге {\bf [Виноградов, гл. 2]} (и придумать алгоритм самостоятельно). Но есть и еще более простой способ, основанной на обобщении малой теоремы Ферма. Если определить (см. , {\bf  [Виноградов, гл. 2]})  т. н. {\em символ Лежандра}: $\bigl(\frac{a}{p}\bigr)$, равный $+1$, если число $a\neq 0\pmod{p}$ является квадратичным вычетом $\pmod{p}$, и, равный $-1$, в противном случае, то имеет место равенство $a^{\frac{p-1}2}=\bigl(\frac{a}{p}\bigr)\pmod{p}$. Таким образом, можно эффективно проверить, является ли $a$ квадратичным вычетом, используя быстрое возведение в степень. Кроме того, можно построить быстрый вероятностный алгоритм поиска квадратичного вычета или невычета. Что понимается по этим, поясняет следующая задача.
+
+}
+
+\smallskip
+
+\prp ({\em i}) Пусть НОД$(a,N)=~1$ и $a^{N-1}\neq 1 \pmod{N}$. 
+Тогда по крайней мере для половины
+чисел из промежутка $1\leq b < N$ выполнено $b^{N-1}\neq 1 \pmod{N}$.
+
+\smallskip
+
+
+\smallskip
+
+
+
+
+\end{document}
+
+
+
+
+
+
+

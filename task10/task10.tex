@@ -1,0 +1,101 @@
+\documentclass[12pt,a5paper,fleqn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb, amsmath, multicol}
+\usepackage[russian]{babel}
+\usepackage{graphicx}
+\usepackage[shortcuts,cyremdash]{extdash}
+\usepackage{wrapfig}
+\usepackage{floatflt}
+\usepackage{lipsum}
+\usepackage{concmath}
+\usepackage{euler}
+
+\graphicspath{ {images/} }
+
+\oddsidemargin=-17.9mm
+\textwidth=133mm
+\headheight=-35.4mm
+\textheight=200mm
+\parindent=0pt
+\tolerance=100
+\parskip=6pt
+\pagestyle{empty}
+
+\DeclareMathOperator{\circul}{circ}
+\renewcommand{\tg}{\mathop{\mathrm{tg}}\nolimits}
+\renewcommand{\ctg}{\mathop{\mathrm{ctg}}\nolimits}
+\renewcommand{\arctan}{\mathop{\mathrm{arctg}}\nolimits}
+\newcommand{\divisible}{\mathop{\raisebox{-2pt}{\vdots}}}
+\renewcommand{\not}{\overline}
+\newcommand{\modulo}{\mathop{\mathrm{mod}}\nolimits}
+
+
+
+
+\RequirePackage{caption2}
+\renewcommand\captionlabeldelim{}
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}%
+\newtheorem{Theorem}{Теорема}
+{\hbox{$\mathsurround=0pt #1$}}{}}
+
+\begin{document}
+
+\begin{center}
+{ \Large Задание на восьмую неделю.}
+
+\end{center}
+
+
+
+{\bf 1.} Докажите формулу обращения: $(M_n(\omega))^{-1} = \dfrac{1}{n}M_n(\omega^{-1})$. Вычислите также матрицу $(M_n(\omega))^4$.
+
+\medskip
+
+{\bf 2.} Найдите произведение многочленов $A(x) = x^3+3x+2$ и $B(x)=3x^3+3x^2+2$ с помощью алгоритма быстрого преобразования Фурье. Для этого найдите рекурсивно дискретное преобразование Фурье двух массивов $A=(0,0,0,0,1,0,3,2)$ и $B=(0,0,0,0,3,3,0,2)$, затем вычислите ДПФ массива $C$ и восстановите коэффициенты многочлена-произведения, используя обратное преобразование.
+\medskip
+
+{\bf 3.} Даны числа $x_1,\dotsc, x_n$. Доказать, что коэффициенты многочлена  $f(x) = \displaystyle\prod_{i = 1}^n (x-x_i)$, можно найти за $O(n \log_2^2 n)$ арифметических операций.
+
+
+{\bf 4.}  Используя  ДПФ, найдите решение системы линейных уравнений $Cx=b$. где $C$~--- это циркулянтная матрица, порожденная вектором столбцом $(1,2,4,8)^T$, а $b^T=(16,8,4,2)$.
+
+{\bf 5.} Обозначим для вектора $\vec{x}$ циркулянтную матрицу с первым столбцом $\vec{x}$ за $\circul(\vec{x})$. Назовём циклической свёрткой $\vec{x}*\vec{y}$ двух векторов произведение матрицы на вектор $\circul(\vec{x})\vec{y}$. Докажите, что $FFT(\vec{x}*\vec{y})$ есть произведение векторов $FFT(\vec{x})$ и $FFT(\vec{y})$ по Адамару (т.~е. поэлементное: $i$-ая компонента вектора-произведения есть произведение $i$-ых компонент сомножителей).
+  
+{\bf 6.} Рассмотрим циркулянтную матрицу порядка $n+1$, первый столбец которой равен $(c_0, c_1, \dotsc, c_n)^T$, т. е. матрицу вида
+$$\begin{bmatrix}
+c_0 & c_n & c_{n-1} & \dots & c_1 \\
+c_1 & c_0 & c_n & \dots & c_2 \\ 
+c_2 & c_1 & c_0 & \dots & c_3 \\ 
+\vdots & \vdots & \vdots & \ddots & \vdots \\ 
+c_n & c_{n-1} & c_{n-2} & \dots & c_0 \end{bmatrix}$$
+
+Докажите, что все её собственные значения, домноженные на $\frac{1}{\sqrt{n+1}}$, могут быть найдены умножением матрицы Фурье $F_n = \frac{1}{\sqrt{n+1}}\left(\omega_n^{ij}\right)_{i, j = 0}^{n}$ размеров $(n+1)\times (n+1)$, где $\omega_n~=~e^{\frac{2\pi i}{n}}$~--- корень из единицы, на вектор $(c_0, c_n, c_{n-1},\dotsc, c_1)^T$. Найдите с помощью алгоритма БПФ собственные значения циркулянтной матрицы, первый столбец которой имеет вид $(1, 2, 4, 6)^T$.
+
+
+{\bf 7.} Дано множество различных чисел $A\subseteq \{1,\dots,m\}$. Рассмотрим множество $A+A$, образованное суммами элементов $A$. 
+Докажите или опровергните существование процедур построения
+$A+A$, имеющих субквадратичную трудоемкость $o(m^2)$.
+
+
+
+{\bf 8.} Прочитайте статью: 
+
+P. Clifford, R. Clifford. Simple deterministic wildcard matching. Information Processing Letters 101 (2007) 53–54. 
+
+В этой задаче нужно обосновать некоторые утверждения из неё.
+Задача состоит в быстром нахождении подстроки $p_0,\dotsc p_{m-1}$ в строке $t_0,\dotsc, t_{n-1}$ (тексте). Подстрока входит с $i$-ой позиции, если $p_j = t_{i+j}$ для $j = 0,\dotsc, m-1$. Если считать буквы различными целыми числами, то вхождение подстроки с $i$-ой позициии эквивалентно обнулению суммы квадратов $B_i = \displaystyle\sum_{j=0}^{m-1} (p_j-t_{i+j})^2$. Нужно вычислить весь массив $\{B_i, i=0,\dotsc, n-m\}$. 
+
+($i$) Покажите, как построить $O(n\log n)$-алгоритм поиска вхождения образца в текст. 
+
+($ii$) Покажите, как, используя БПФ, построить $O(n \log n)$-алгоритм поиска вхождения образца в текст с <<джокерами>> (идея описана в том же тексте).
+
+($iii$) Покажите, как понизить сложность алгоритмов предыдущих двух пунктов до $O(n \log m)$.
+
+
+
+{\bf 9.} Многочлен $A(x) = \displaystyle\sum\limits_{i=0}^{n-1}a_i x^i$ задан последовательностью коэффициентов. Пусть последовательность $\{y_k\}_{k=0}^{n-1}$~--- его ДПФ, т. е. $y_k = A\left(e^{\tfrac{2\pi k}{n}i}\right)$.
+  Предложите алгоритм, вычисляющий $\displaystyle\sum\limits_{k=0}^{n-1}(\text{Re } y_k + \text{Im } y_k)$ и требующий $o(n^2)$ арифметических операций. 
+
+
+
+\end{document}
